@@ -10,6 +10,7 @@ env:
     PYTHON_VERSION: '3.10'
     # SRC_DIR - path to the backend root src folder
     SRC_DIR: '${{ github.workspace }}/src/backend/'
+    AWS_REGION: 'us-west-2'
 
 jobs:
     lint:
@@ -72,6 +73,14 @@ jobs:
               run: cd ${{env.SRC_DIR}} && pipenv install --dev
             - name: Run linter
               run: cd ${{env.SRC_DIR}} && pipenv run test
+
+              # Configure AWS credentials
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }} # Use your stored AWS Access Key ID
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }} # Use your stored AWS Secret Access Key
+                aws-region: ${{ env.AWS_REGION }} # Use the region from your environment variables
             
             - name: Login to Amazon ECR
               id: login-ecr
