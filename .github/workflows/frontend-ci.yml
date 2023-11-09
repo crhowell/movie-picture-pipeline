@@ -77,3 +77,4 @@ jobs:
               run: |
                   cd ${{env.SRC_DIR}}
                   docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+
