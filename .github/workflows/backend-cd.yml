@@ -34,7 +34,7 @@ jobs:
             - name: Run linting
               uses: VaultVulp/action-pipenv@v2.0.1
               with:
-                command: run test
+                command: run lint
     test:
         runs-on: ubuntu-latest
         steps:
