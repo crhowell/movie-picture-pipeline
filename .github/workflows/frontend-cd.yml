@@ -53,6 +53,7 @@ jobs:
               with:
                 node-version: ${{env.NODE_VERSION}}
                 cache: 'npm'
+                cache-dependency-path: '${{ env.SRC_DIR}}/package-lock.json'
             # TODO: Perform a cache action to restore cache before deps install.
             - name: Install dependencies
               run: cd ${{env.SRC_DIR}} && npm ci
@@ -69,6 +70,9 @@ jobs:
               uses: actions/setup-node@v3
               with:
                 node-version: ${{env.NODE_VERSION}}
+                cache: 'npm'
+                cache-dependency-path: '${{ env.SRC_DIR}}/package-lock.json'
+
             # TODO: Perform a cache action to restore cache before deps install.
             - name: Install dependencies
               run: cd ${{env.SRC_DIR}} && npm ci
