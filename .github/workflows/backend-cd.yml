@@ -12,6 +12,7 @@ env:
     SRC_DIR: '${{ github.workspace }}/src/backend/'
     K8_DIR: '${{ github.workspace }}/src/backend/k8s'
     ECR_REPO: '815822840554.dkr.ecr.us-west-2.amazonaws.com/backend'
+    AWS_REGION: 'us-west-2'
 
 jobs:
     lint:
