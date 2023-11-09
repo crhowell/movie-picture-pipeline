@@ -98,3 +98,18 @@ jobs:
                   cd ${{env.SRC_DIR}}
                   docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag=$REGISTRY/$REPOSITORY:$IMAGE_TAG .
                   docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+            
+            - name: Set up kubectl
+              uses: azure/setup-kubectl@v2
+              with:
+                version: 'latest'
+            
+            - name: Deploy to Kubernetes
+              env:
+                REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                REPOSITORY: frontend
+                IMAGE_TAG: ${{ github.sha }}
+                KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
+              run: |
+                  kubectl kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+                  kubectl kustomize build | kubectl apply -f -
