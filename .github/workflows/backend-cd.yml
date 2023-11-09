@@ -28,11 +28,11 @@ jobs:
             - name: Install pipenv
               run: pip install pipenv
 
-            - name: Install dependencies
-              run: cd ${{env.SRC_DIR}} && pipenv install
-            
-            - name: Run linting
-              run: cd ${{env.SRC_DIR}} && pipenv run lint
+            - name: Install dependencies and lint
+              run: |
+                cd ${{env.SRC_DIR}}
+                pipenv install
+                pipenv run lint
     test:
         runs-on: ubuntu-latest
         steps:
@@ -47,11 +47,11 @@ jobs:
             - name: Install pipenv
               run: pip install pipenv
 
-            - name: Install dependencies
-              run: cd ${{env.SRC_DIR}} && pipenv install --system --deploy
-            
-            - name: Run linting
-              run: cd ${{env.SRC_DIR}} && pipenv run lint
+            - name: Install dependencies and lint
+              run: |
+                cd ${{env.SRC_DIR}}
+                pipenv install
+                pipenv run lint
     
     build:
         needs: [lint, test]
