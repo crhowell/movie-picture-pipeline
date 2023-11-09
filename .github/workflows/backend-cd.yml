@@ -48,7 +48,7 @@ jobs:
               run: pip install pipenv
 
             - name: Install dependencies
-              run: cd ${{env.SRC_DIR}} && pipenv install
+              run: cd ${{env.SRC_DIR}} && pipenv install --deploy
             
             - name: Run linting
               run: cd ${{env.SRC_DIR}} && pipenv run lint
