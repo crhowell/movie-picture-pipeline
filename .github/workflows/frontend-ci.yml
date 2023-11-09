@@ -9,7 +9,7 @@ on:
 env:
     NODE_VERSION: 'latest'
     # path to the frontend root folder
-    SRC_DIR: 'src/frontend/'
+    SRC_DIR: '${{ github.workspace }}/src/frontend/'
 
 jobs:
     lint:
@@ -23,9 +23,11 @@ jobs:
               with:
                 node-version: ${{env.NODE_VERSION}}
                 cache: 'npm'
+            
             # TODO: Perform a cache action to restore cache before deps install.
             - name: Install dependencies
               run: cd ${{env.SRC_DIR}} && npm ci
+            
             - name: Run linter
               run: cd ${{env.SRC_DIR}} && npm run lint
     test:

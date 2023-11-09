@@ -9,7 +9,7 @@ on:
 env:
     PYTHON_VERSION: '3.10'
     # path to the backend root folder
-    SRC_DIR: 'src/backend/'
+    SRC_DIR: '${{ github.workspace }}/src/backend/'
 
 jobs:
     lint:
