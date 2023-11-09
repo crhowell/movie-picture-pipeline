@@ -111,5 +111,6 @@ jobs:
                 IMAGE_TAG: ${{ github.sha }}
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
+                  cd ${{env.SRC_DIR}}/k8s
                   kubectl kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
                   kubectl kustomize build | kubectl apply -f -
