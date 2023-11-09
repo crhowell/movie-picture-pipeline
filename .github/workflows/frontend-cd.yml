@@ -9,6 +9,7 @@ env:
     NODE_VERSION: 'latest'
     # path to the frontend root folder
     SRC_DIR: '${{ github.workspace }}/src/frontend/'
+    K8_DIR: '${{ github.workspace }}/src/frontend/k8s'
     AWS_REGION: 'us-west-2'
     TF_ACTION_WORKING_DIR: 'src/terraform'
 
@@ -111,6 +112,6 @@ jobs:
                 IMAGE_TAG: ${{ github.sha }}
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
-                  cd ${{env.SRC_DIR}}/k8s
+                  cd ${{env.K8_DIR}}
                   kubectl kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
                   kubectl kustomize build | kubectl apply -f -
