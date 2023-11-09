@@ -98,7 +98,7 @@ jobs:
               # TODO: how to get the REACT_APP_MOVIE_API_URL and populate it into docker build command?
               run: |
                   cd ${{env.SRC_DIR}}
-                  docker build --build-arg=REACT_APP_MOVIE_API_URL=adffc75ea17244605828406b3e9dc845-1876417509.us-west-2.elb.amazonaws.com --tag=$REGISTRY/$REPOSITORY:$IMAGE_TAG .
+                  docker build --build-arg=REACT_APP_MOVIE_API_URL=http://ace59f7555b6146cfad6e90c628c340c-712548043.us-west-2.elb.amazonaws.com --tag=$REGISTRY/$REPOSITORY:$IMAGE_TAG .
                   docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
             
             - name: Set up kubectl
