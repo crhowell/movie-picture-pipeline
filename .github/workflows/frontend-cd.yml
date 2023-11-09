@@ -100,7 +100,7 @@ jobs:
                   docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
             
             - name: Set up kubectl
-              uses: azure/setup-kubectl@v2
+              uses: actions-hub/kubectl@master
               with:
                 version: 'latest'
             
