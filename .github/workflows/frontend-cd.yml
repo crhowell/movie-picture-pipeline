@@ -114,5 +114,5 @@ jobs:
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
                   cd ${{env.K8_DIR}}
-                  kubectl kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-                  kubectl kustomize build | kubectl apply -f -
+                  kubectl set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+                  kubectl apply -k .

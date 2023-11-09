@@ -83,10 +83,10 @@ jobs:
             - name: Deploy to Kubernetes
               env:
                 REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                REPOSITORY: frontend
+                REPOSITORY: backend
                 IMAGE_TAG: ${{ github.sha }}
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
-                  cd ${{env.K8_DIR}}
-                  kubectl kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-                  kubectl kustomize build | kubectl apply -f -
+                cd ${{env.K8_DIR}}
+                kubectl set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+                kubectl apply -k .
