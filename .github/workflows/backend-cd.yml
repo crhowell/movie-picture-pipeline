@@ -25,13 +25,16 @@ jobs:
               with:
                 python-version: ${{env.PYTHON_VERSION}}
                 cache: 'pipenv'
-            - name: Run image
-              uses: tiagovrtr/actions-pipenv@v1
-            # TODO: Perform a cache action to restore cache before deps install.
+            
             - name: Install dependencies
-              run: cd ${{env.SRC_DIR}} && pipenv install
-            - name: Run linter
-              run: cd ${{env.SRC_DIR}} && pipenv run flake8
+              uses: VaultVulp/action-pipenv@v2.0.1
+              with:
+                command: install -d
+            
+            - name: Run linting
+              uses: VaultVulp/action-pipenv@v2.0.1
+              with:
+                command: run test
     test:
         runs-on: ubuntu-latest
         steps:
@@ -43,13 +46,16 @@ jobs:
               with:
                 python-version: ${{env.PYTHON_VERSION}}
                 cache: 'pipenv'
-            - name: Run image
-              uses: tiagovrtr/actions-pipenv@v1
-            # TODO: Perform a cache action to restore cache before deps install.
+            
             - name: Install dependencies
-              run: cd ${{env.SRC_DIR}} && pipenv install
-            - name: Run linter
-              run: cd ${{env.SRC_DIR}} && pipenv run test
+              uses: VaultVulp/action-pipenv@v2.0.1
+              with:
+                command: install -d
+            
+            - name: Run linting
+              uses: VaultVulp/action-pipenv@v2.0.1
+              with:
+                command: run test
     
     build:
         needs: [lint, test]
