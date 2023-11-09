@@ -114,8 +114,10 @@ jobs:
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
                   cd ${{env.K8_DIR}}
-                  echo "$(kubectl version)"
-                  echo "$(kustomize version)"
+                  aws eks update-kubeconfig --name=cluster
                   echo "frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+                  
+                  kustomize edit set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+                  kustomize build | kubectl apply -f -
                   # kubectl set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
                   # kubectl apply -k .

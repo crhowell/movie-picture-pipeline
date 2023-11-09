@@ -99,6 +99,8 @@ jobs:
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
                 cd ${{env.K8_DIR}}
-                echo 'backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG'
-                #kubectl set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-                #kubectl apply -k .
+                aws eks update-kubeconfig --name=cluster
+                echo "backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG"
+                
+                kustomize edit set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+                kustomize build | kubectl apply -f -
