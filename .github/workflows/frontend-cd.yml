@@ -114,5 +114,6 @@ jobs:
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
                   cd ${{env.K8_DIR}}
-                  kubectl set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-                  kubectl apply -k .
+                  echo 'frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG'
+                  # kubectl set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+                  # kubectl apply -k .

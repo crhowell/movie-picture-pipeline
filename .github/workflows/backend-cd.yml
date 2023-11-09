@@ -24,6 +24,7 @@ jobs:
               uses: actions/setup-python@v4
               with:
                 python-version: ${{env.PYTHON_VERSION}}
+                cache: 'pipenv'
             
             - name: Install pipenv
               run: pip install pipenv
@@ -31,7 +32,7 @@ jobs:
             - name: Install dependencies and lint
               run: |
                 cd ${{env.SRC_DIR}}
-                pipenv install
+                pipenv install --dev
                 pipenv run lint
     test:
         runs-on: ubuntu-latest
@@ -43,6 +44,7 @@ jobs:
               uses: actions/setup-python@v4
               with:
                 python-version: ${{env.PYTHON_VERSION}}
+                cache: 'pipenv'
             
             - name: Install pipenv
               run: pip install pipenv
@@ -50,7 +52,7 @@ jobs:
             - name: Install dependencies and lint
               run: |
                 cd ${{env.SRC_DIR}}
-                pipenv install
+                pipenv install --dev
                 pipenv run lint
     
     build:
@@ -96,5 +98,6 @@ jobs:
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
                 cd ${{env.K8_DIR}}
-                kubectl set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-                kubectl apply -k .
+                echo 'backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG'
+                #kubectl set image backend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+                #kubectl apply -k .
