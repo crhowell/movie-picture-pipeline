@@ -10,18 +10,7 @@ env:
     # path to the frontend root folder
     SRC_DIR: '${{ github.workspace }}/src/frontend/'
     AWS_REGION: 'us-west-2'
-    ECR_REPO: 'movie-pipeline'
     TF_ACTION_WORKING_DIR: 'src/terraform'
-
-
-# TODO: EXECUTE this pipeline on merges to main
-# TODO: Also manual run 
-# 
-# TODO: Run linting
-# TODO: Run tests
-# TODO: build with docker using --build-args to pass REACT_APP_MOVIE_API_URL
-# TODO: login to ecr using github secrets
-# TODO: push the docker image to ECR
 
 jobs:
     lint:
@@ -99,36 +88,12 @@ jobs:
               id: login-ecr
               uses: aws-actions/amazon-ecr-login@v2
             
-            - name: Debug output
+            - name: Build, tag, and push docker image to Amazon ECR
+              env:
+                REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                REPOSITORY: frontend
+                IMAGE_TAG: ${{ github.sha }}
+              # TODO: how to get the REACT_APP_MOVIE_API_URL and populate it into docker build command?
               run: |
-                echo 'Registry: ${{steps.login-ecr.outputs.registry}}'
-                echo 'Repository: ${{ env.ECR_REPO }}'
-                echo 'Image Tag: ${{ github.sha }}'
-            # - name: Build, tag, and push docker image to Amazon ECR
-            #   env:
-            #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            #     REPOSITORY: ${{env.ECR_REPO}}
-            #     IMAGE_TAG: ${{ github.sha }}
-            #   run: |
-            #       docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-            #       docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-            
-            # # Set up the specified version of Terraform
-            # - name: Setup Terraform
-            #   uses: hashicorp/setup-terraform@v2
-            
-            # # Initialize your Terraform configuration
-            # - name: Terraform Init
-            #   run: cd ${{env.TF_ACTION_WORKING_DIR}} && terraform init
-        
-            # # Validate your Terraform configuration
-            # - name: Terraform Validate
-            #   run: cd ${{env.TF_ACTION_WORKING_DIR}} && terraform validate 
-        
-            # # Generate and display an execution plan
-            # - name: Terraform Plan
-            #   run: cd ${{env.TF_ACTION_WORKING_DIR}} && terraform plan 
-        
-            # # Apply the changes required to reach the desired state of the configuration
-            # - name: Terraform Apply
-            #   run: cd ${{env.TF_ACTION_WORKING_DIR}} && terraform apply -auto-approve
+                  docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag=$REGISTRY/$REPOSITORY:$IMAGE_TAG .
+                  docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
