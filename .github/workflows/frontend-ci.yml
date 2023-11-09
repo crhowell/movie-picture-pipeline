@@ -8,9 +8,9 @@ on:
 
 env:
     NODE_VERSION: 'latest'
-    # path to the frontend root folder
+    # SRC_DIR - path to the frontend root src folder
     SRC_DIR: '${{ github.workspace }}/src/frontend/'
-    ECR_REPO: '815822840554.dkr.ecr.us-west-2.amazonaws.com/frontend'
+    AWS_REGION: 'us-west-2'
 
 jobs:
     lint:
@@ -25,7 +25,7 @@ jobs:
                 node-version: ${{env.NODE_VERSION}}
                 cache: 'npm'
                 cache-dependency-path: '${{ env.SRC_DIR}}/package-lock.json'
-            # TODO: Perform a cache action to restore cache before deps install.
+            
             - name: Install dependencies
               run: cd ${{env.SRC_DIR}} && npm ci
             
@@ -43,7 +43,7 @@ jobs:
                 node-version: ${{env.NODE_VERSION}}
                 cache: 'npm'
                 cache-dependency-path: '${{ env.SRC_DIR}}/package-lock.json'
-            # TODO: Perform a cache action to restore cache before deps install.
+            
             - name: Install dependencies
               run: cd ${{env.SRC_DIR}} && npm ci
             
