@@ -95,5 +95,6 @@ jobs:
                 IMAGE_TAG: ${{ github.sha }}
               # TODO: how to get the REACT_APP_MOVIE_API_URL and populate it into docker build command?
               run: |
+                  cd ${{env.SRC_DIR}}
                   docker build --build-arg=REACT_APP_MOVIE_API_URL=http://localhost:5000 --tag=$REGISTRY/$REPOSITORY:$IMAGE_TAG .
                   docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
