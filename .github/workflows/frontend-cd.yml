@@ -114,6 +114,8 @@ jobs:
                 KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
               run: |
                   cd ${{env.K8_DIR}}
-                  echo 'frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG'
+                  echo "$(kubectl version)"
+                  echo "$(kustomize version)"
+                  echo "frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG"
                   # kubectl set image frontend=$REGISTRY/$REPOSITORY:$IMAGE_TAG
                   # kubectl apply -k .
